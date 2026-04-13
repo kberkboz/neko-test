@@ -1,0 +1,111 @@
+# Execution result — experiment (attempt 1)
+Success: True
+
+## stdout
+======================================================================
+EXPERIMENT 1: MONTE CARLO ESTIMATION OF π
+======================================================================
+  N per run          = 100,000
+  Replications R     = 1,000
+  Bootstrap samples  = 2,000
+  SE constant        = 1.642183
+  SE at N=100,000    = 0.005193
+  ε (lenient)        = 0.02
+  ε (95% CI)         = 0.01018
+
+  Exact finite-N coverage at ε=0.02:    0.999883
+  Exact finite-N coverage at ε=0.01018: 0.950042
+  Normal approx coverage at ε=0.02:     0.999883
+  Normal approx coverage at ε=0.01018: 0.950000
+
+----------------------------------------------------------------------
+PART A: Single-run demonstration (seed = 42)
+----------------------------------------------------------------------
+  Final π̂           = 3.137760
+  True π            = 3.141593
+  Absolute error    = 0.003833
+  |error| < 0.02   = True
+  |error| < ε_95   = True
+  Hit fraction      = 0.784440  (expected ≈ 0.785398)
+
+  Saved: figures/convergence_plot.png
+  Saved: figures/scatter_points.png
+
+----------------------------------------------------------------------
+PART B: Ensemble validation (R = 1,000 independent runs)
+----------------------------------------------------------------------
+  Ensemble completed in 2.5 seconds
+  (1,000 × 100,000 = 100,000,000 point evaluations)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  H1: Coverage at ε = 0.02 (lenient threshold)              │
+  └─────────────────────────────────────────────────────────────┘
+    Observed coverage         = 0.9990 (999/1000)
+    Exact finite-N coverage   = 0.999883
+    Criterion: coverage ≥ 99.8% (descriptive)
+    coverage ≥ 0.998?         = True
+    Failed runs: [168]
+    Their errors: [0.020847346410207024]
+    *** H1 SUPPORTED ✓ ***
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  H2: Coverage at ε ≈ 0.01017 (95% CI half-width)          │
+  └─────────────────────────────────────────────────────────────┘
+    Observed coverage         = 0.9610 (961/1000)
+    Exact finite-N coverage   = 0.950042
+    Binomial test p-value     = 0.126877
+    95% Clopper-Pearson CI    = [0.9471, 0.9721]
+    CI contains 0.95?         = True
+    Acceptance band [0.93, 0.97]
+    Coverage in band?         = True
+    *** H2 SUPPORTED ✓ (consistent with ~95%) ***
+
+  Computing bootstrap slope CI...
+  Bootstrap completed in 1.2 seconds
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  H3: Convergence rate (RMSE log-log slope ≈ −0.5)         │
+  └─────────────────────────────────────────────────────────────┘
+    OLS slope                 = -0.50125
+    OLS stderr (naive)        = 0.00197  (unreliable — dependent points)
+    OLS R²                    = 0.999723
+    Bootstrap median slope    = -0.50157
+    Bootstrap 95% CI          = [-0.50993, -0.49199]
+    Bootstrap CI contains -0.5? = True
+    OLS slope ∈ [-0.55,-0.45]?  = True
+    *** H3 SUPPORTED ✓ ***
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  Ensemble summary statistics                               │
+  └─────────────────────────────────────────────────────────────┘
+    Mean π̂                   = 3.141666
+    Std π̂                    = 0.005110
+    Theoretical SE            = 0.005193
+    SE of ensemble mean       = 0.000162
+    Bias (mean - π)           = +0.000073
+    |bias| < 0.001?           = True
+    Min π̂                    = 3.127240
+    Max π̂                    = 3.162440
+    Mean |error|              = 0.004121
+    Median |error|            = 0.003473
+    Max |error|               = 0.020847
+
+    Shapiro-Wilk normality (n=500): W=0.99494, p=0.1005
+    Normal at α=0.05?         = True
+
+======================================================================
+OVERALL RESULT
+======================================================================
+  H1 (lenient coverage ≥ 99.8%):         ✓ PASS
+  H2 (95% coverage consistent):           ✓ PASS
+  H3 (RMSE slope ≈ −0.5, bootstrap):     ✓ PASS
+
+  CONCLUSION: Results provide strong empirical support for
+  theoretical Monte Carlo predictions (coverage, CLT, O(N^{-1/2}) rate).
+======================================================================
+
+Saved: figures/ensemble_histogram.png
+Saved: figures/ensemble_rmse.png
+Saved: figures/bootstrap_slope_distribution.png
+
+All figures saved. Experiment complete.
